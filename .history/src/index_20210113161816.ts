@@ -1,0 +1,2 @@
+class table implements Table{
+}
