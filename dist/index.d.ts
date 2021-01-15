@@ -1,20 +1,22 @@
-declare let id: number;
-declare class Workbook {
+import { Position, Style } from './interface';
+export default class Workbook {
     private sheets;
     private name;
     private id;
     getId(): any;
     setId(v: number): void;
-    constructor(name?: any);
-    addWorkSheet(name?: string): void;
+    constructor(name?: string);
+    addWorkSheet(): void;
     removeWorkSheet(name: string): void;
     getWorkSheetsName(): string[];
     getName(): string;
     setName(v: string): void;
-    private findSheetIndex;
+    getSheetByIndex(index: number): Sheet;
+    getSheet(name: string): string;
+    getSheetIndex(name: string): number;
     private initDefaultSheetName;
 }
-declare class Sheet {
+export declare class Sheet {
     private cells;
     private name;
     private id;
@@ -24,18 +26,30 @@ declare class Sheet {
     addCol(index: number, value?: string): void;
     removeCol(index: any): void;
     removeRow(index: any): void;
+    getRowLength(): number;
+    getColLength(): number;
     getName(): string;
     setName(v: string): void;
     getId(): number;
     setId(v: number): void;
+    getCellLeft(index: any): number;
+    getCellTop(index: any): number;
+    getRowHeight(index: any): string | number;
+    getColWidth(index: any): string | number;
+    getCells(): Cell[];
 }
-declare class Cell {
+export declare class Cell {
     private value;
     private id;
-    constructor(value: string);
+    private style;
+    private position;
+    constructor(value: string, position: Position);
+    getPosition(): Position;
+    setPosition(v: Position): void;
+    getStyle(): Style;
+    setStyle(v: Style): void;
     getValue(): string;
     setValue(v?: string): void;
     getId(): number;
     setId(v: number): void;
 }
-declare const workbook: Workbook;

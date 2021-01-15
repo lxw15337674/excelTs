@@ -15,7 +15,6 @@
         "build": "rollup -c build/rollup.build.js",
         "dev": "rollup -c  build/rollup.build.js -w"
     },
-    "dependencies": {},
     "devDependencies": {
         "@babel/core": "^7.12.10",
         "@babel/preset-env": "^7.12.11",

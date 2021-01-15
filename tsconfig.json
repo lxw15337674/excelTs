@@ -23,7 +23,7 @@
             "es5",
             "es6",
             "es7",
-            "es2015.promise"
+            "es2019"
         ],
         "pretty": true
     },
