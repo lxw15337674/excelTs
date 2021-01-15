@@ -40,6 +40,8 @@ https://github.com/exceljs/exceljs/blob/master/README_zh.md
 - [x] 删除行
 - [x] 增加列
 - [x] 删除列
+- [ ] 获取列的长度
+- [ ] 获取行的长度
 - [ ] 复制
 - [ ] 粘贴
 - [ ] 剪切
