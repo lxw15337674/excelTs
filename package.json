@@ -1,5 +1,5 @@
 {
-    "name": "test",
+    "name": "excelts",
     "version": "1.0.1",
     "description": "",
     "author": "",
@@ -13,7 +13,7 @@
     "scripts": {
         "start": "npm run dev ",
         "build": "rollup -c build/rollup.build.js",
-        "dev": "rollup -c build/rollup.dev.js -w "
+        "dev": "rollup -c  build/rollup.build.js -w"
     },
     "dependencies": {},
     "devDependencies": {

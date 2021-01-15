@@ -1,7 +1,17 @@
+let id = 1;
 class Workbook {
     private sheets: Sheet[] = [new Sheet('sheet1')];
     private name: string = '无标题表格';
+    private id = null;
+    public getId() {
+        return this.id;
+    }
+    public setId(v: number) {
+        this.id = v;
+    }
+
     constructor(name?) {
+        this.setId(id++);
         if (name !== null) {
             this.setName(name);
         }
@@ -46,11 +56,12 @@ class Workbook {
 }
 
 class Sheet {
-    private cells: Cell[][]=[];
-    private name = null;
-    private id = null;
+    private cells: Cell[][] = [];
+    private name: string = null;
+    private id: number = null;
     constructor(name: string, rowLength: number = 10, colLength: number = 10) {
         this.setName(name);
+        this.setId(id++);
         this.initCells(rowLength, colLength);
     }
     public initCells(rowLength: number, colLength: number) {
@@ -86,24 +97,32 @@ class Sheet {
         this.name = v;
     }
 
-    public getId(): string {
+    public getId(): number {
         return this.id;
     }
-    public setId(v: string) {
+    public setId(v: number) {
         this.id = v;
     }
 }
 
 class Cell {
     private value: string;
+    private id: number;
     constructor(value: string) {
         this.setValue(value);
+        this.setId(id++);
     }
     public getValue(): string {
         return this.value;
     }
     public setValue(v: string = '') {
         this.value = v;
+    }
+    public getId() {
+        return this.id;
+    }
+    public setId(v: number) {
+        this.id = v;
     }
 }
 const workbook = new Workbook();

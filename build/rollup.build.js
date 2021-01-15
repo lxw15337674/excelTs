@@ -2,7 +2,7 @@ import base from './rollup.base'
 import babel from 'rollup-plugin-babel'
 import { merge } from 'lodash'
 const config = merge(base, {
-  input: 'src/index.js',
+  input: 'src',
   plugins: [
     babel({
       exclude: 'node_modules/**',

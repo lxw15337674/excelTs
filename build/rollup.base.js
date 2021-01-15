@@ -10,7 +10,6 @@ export default {
         { find: '@', replacement: '../src' }
       ]
     }),
-    vue({ css: true }),
     typescript({
       tsconfig: 'tsconfig.json',
     }),
