@@ -1,5 +1,6 @@
 // 统一单元格位置：第几行第几列，现有row，再有col
-import { Position, Style } from './interface';
+import { Index, Position, Style } from './interface';
+import { addPx } from './utils/addPx';
 
 let id = 1;
 export default class Workbook {
@@ -69,36 +70,36 @@ export class Sheet {
     private cells: Cell[][] = [];
     private name: string = null;
     private id: number = null;
-    constructor(name: string, rowLength: number = 10, colLength: number = 10) {
+    constructor(name: string, rowLength: number = 100, colLength: number = 10) {
         this.setName(name);
         this.setId(id++);
         this.initCells(rowLength, colLength);
     }
     public initCells(rowLength: number, colLength: number) {
         let top = 0;
-        let left = 0;
         for (let row = 0; row < rowLength; row++) {
             let rowCells = [];
+            let left = 0;
             for (let col = 0; col < colLength; col++) {
-                rowCells.push(new Cell(`行：${row}，列：${col}`, { top, left }));
+                rowCells.push(new Cell(`行：${row}，列：${col}`, { top, left },{row:row,col:col}));
                 left += 120;
             }
             this.cells.push(rowCells);
-            top + 30;
+            top += 30;
         }
     }
     public addRow(index: number, value: string = '') {
         let row = Array(this.cells[0].length).fill(value);
         this.cells.splice(index, 0, row);
     }
-    public addCol(index: number, value: string = '') {
-        const left = this.getCellLeft(index);
-        let top = 0;
-        for (let row of this.cells) {
-            row.splice(index, 0, new Cell(value, { left, top }));
-            top += 30;
-        }
-    }
+    // public addCol(index: number, value: string = '') {
+    //     const left = this.getCellLeft(index);
+    //     let top = 0;
+    //     for (let row of this.cells) {
+    //         row.splice(index, 0, new Cell(value, { left, top },{row:0,col:index}));
+    //         top += 30;
+    //     }
+    // }
     public removeCol(index) {
         for (let row of this.cells) {
             row.splice(index, 1);
@@ -149,6 +150,9 @@ export class Sheet {
     public getCells(): Cell[] {
         return this.cells.flat();
     }
+    public findCell(row:number,col:number){
+        return this.cells[row][col]
+    }
 }
 
 export class Cell {
@@ -156,7 +160,9 @@ export class Cell {
     private id: number;
     private style: Style;
     private position: Position;
-    constructor(value: string, position: Position) {
+    private index: Index;
+
+    constructor(value: string, position: Position, index: Index) {
         this.setValue(value);
         this.setId(id++);
         this.setStyle({
@@ -164,17 +170,34 @@ export class Cell {
             height: 30,
         });
         this.setPosition(position);
+        this.setIndex(index)
+    }
+
+    public getIndex(): Index {
+        return this.index;
+    }
+    public setIndex(v: Index) {
+        this.index = v;
     }
 
     public getPosition(): Position {
         return this.position;
     }
     public setPosition(v: Position) {
-        this.position = v;
+        this.position = v; 
     }
 
     public getStyle() {
         return this.style;
+    }
+    public getCellStyle() {
+        return {
+            position: 'absolute',
+            left: addPx(this.position.left),
+            top: addPx(this.position.top),
+            width: addPx(this.style.width),
+            height: addPx(this.style.height),
+        };
     }
     public setStyle(v: Style) {
         this.style = v;
@@ -184,7 +207,7 @@ export class Cell {
         return this.value;
     }
     public setValue(v: string = '') {
-        this.value = v;
+        this.value = v; 
     }
     public getId() {
         return this.id;

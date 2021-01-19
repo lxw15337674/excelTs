@@ -1,8 +1,12 @@
 export interface Style {
-    width: number | string;
-    height: number | string;
+    width: number;
+    height: number;
 }
 export interface Position {
     top: number;
     left: number;
+}
+export interface Index {
+    row: number;
+    col: number;
 }
