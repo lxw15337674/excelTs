@@ -8,7 +8,23 @@
       return num + "px";
   };
 
+  function indexToChar(n) {
+      var res = "";
+      while (n > 0) {
+          var temp = n % 26;
+          n = Math.floor(n / 26);
+          if (temp == 0) {
+              temp = 26;
+              n--;
+          }
+          res = String.fromCharCode(temp + 64) + res;
+      }
+      return res;
+  }
+
   var id = 1;
+  var HeaderHeight = 50;
+  var HeaderWidth = 120;
   var Workbook = (function () {
       function Workbook(name) {
           if (name === void 0) { name = '无标题表格'; }
@@ -74,8 +90,8 @@
   }());
   var Sheet = (function () {
       function Sheet(name, rowLength, colLength) {
-          if (rowLength === void 0) { rowLength = 100; }
-          if (colLength === void 0) { colLength = 10; }
+          if (rowLength === void 0) { rowLength = 50; }
+          if (colLength === void 0) { colLength = 20; }
           this.cells = [];
           this.name = null;
           this.id = null;
@@ -84,10 +100,10 @@
           this.initCells(rowLength, colLength);
       }
       Sheet.prototype.initCells = function (rowLength, colLength) {
-          var top = 0;
+          var top = HeaderHeight;
           for (var row = 0; row < rowLength; row++) {
               var rowCells = [];
-              var left = 0;
+              var left = HeaderWidth;
               for (var col = 0; col < colLength; col++) {
                   rowCells.push(new Cell("\u884C\uFF1A" + row + "\uFF0C\u5217\uFF1A" + col, { top: top, left: left }, { row: row, col: col }));
                   left += 120;
@@ -148,11 +164,53 @@
       Sheet.prototype.getColWidth = function (index) {
           return this.cells[0][index].getStyle().width;
       };
-      Sheet.prototype.getCells = function () {
+      Sheet.prototype.getDataCells = function () {
           return this.cells.flat();
       };
       Sheet.prototype.findCell = function (row, col) {
           return this.cells[row][col];
+      };
+      Sheet.prototype.getPlaceholderCell = function () {
+          return {
+              top: 0,
+              left: 0,
+              height: addPx(HeaderHeight),
+              width: addPx(HeaderWidth)
+          };
+      };
+      Sheet.prototype.getRowCells = function () {
+          var top = HeaderHeight;
+          return this.cells.map(function (cell, index) {
+              var height = cell[0].getStyle().height;
+              var result = {
+                  id: id++,
+                  index: index,
+                  value: (index + 1).toString(),
+                  top: top,
+                  left: 0,
+                  height: addPx(height),
+                  width: addPx(HeaderWidth)
+              };
+              top += height;
+              return result;
+          });
+      };
+      Sheet.prototype.getColCells = function () {
+          var left = HeaderWidth;
+          return this.cells[0].map(function (cell, index) {
+              var width = cell.getStyle().width;
+              var result = {
+                  id: id++,
+                  index: index,
+                  value: indexToChar(index + 1),
+                  top: 0,
+                  left: left,
+                  height: addPx(HeaderHeight),
+                  width: addPx(width)
+              };
+              left += width;
+              return result;
+          });
       };
       return Sheet;
   }());
@@ -184,7 +242,6 @@
       };
       Cell.prototype.getCellStyle = function () {
           return {
-              position: 'absolute',
               left: addPx(this.position.left),
               top: addPx(this.position.top),
               width: addPx(this.style.width),

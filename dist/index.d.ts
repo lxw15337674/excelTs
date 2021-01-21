@@ -1,4 +1,4 @@
-import { Index, Position, Style } from './interface';
+import { HeaderCell, Index, Position, Style } from './interface';
 export default class Workbook {
     private sheets;
     private name;
@@ -35,8 +35,16 @@ export declare class Sheet {
     getCellTop(index: any): number;
     getRowHeight(index: any): number;
     getColWidth(index: any): number;
-    getCells(): Cell[];
+    getDataCells(): Cell[];
     findCell(row: number, col: number): Cell;
+    getPlaceholderCell(): {
+        top: number;
+        left: number;
+        height: string;
+        width: string;
+    };
+    getRowCells(): HeaderCell[];
+    getColCells(): HeaderCell[];
 }
 export declare class Cell {
     private value;
@@ -51,7 +59,6 @@ export declare class Cell {
     setPosition(v: Position): void;
     getStyle(): Style;
     getCellStyle(): {
-        position: string;
         left: string;
         top: string;
         width: string;

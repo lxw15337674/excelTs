@@ -1,8 +1,11 @@
 // 统一单元格位置：第几行第几列，现有row，再有col
-import { Index, Position, Style } from './interface';
+import { HeaderCell, Index, Position, Style } from './interface';
 import { addPx } from './utils/addPx';
+import { indexToChar } from './utils/transform';
 
 let id = 1;
+const HeaderHeight = 50
+const HeaderWidth = 120
 export default class Workbook {
     private sheets: Sheet[] = [new Sheet('sheet1')];
     private name: string;
@@ -70,16 +73,16 @@ export class Sheet {
     private cells: Cell[][] = [];
     private name: string = null;
     private id: number = null;
-    constructor(name: string, rowLength: number = 100, colLength: number = 10) {
+    constructor(name: string, rowLength: number = 50, colLength: number = 20) {
         this.setName(name);
         this.setId(id++);
         this.initCells(rowLength, colLength);
     }
     public initCells(rowLength: number, colLength: number) {
-        let top = 0;
+        let top = HeaderHeight;
         for (let row = 0; row < rowLength; row++) {
             let rowCells = [];
-            let left = 0;
+            let left = HeaderWidth;
             for (let col = 0; col < colLength; col++) {
                 rowCells.push(new Cell(`行：${row}，列：${col}`, { top, left },{row:row,col:col}));
                 left += 120;
@@ -147,13 +150,73 @@ export class Sheet {
     public getColWidth(index) {
         return this.cells[0][index].getStyle().width;
     }
-    public getCells(): Cell[] {
+    public getDataCells(): Cell[] {
         return this.cells.flat();
     }
     public findCell(row:number,col:number){
         return this.cells[row][col]
     }
+    public getPlaceholderCell(){
+        return {
+            top:0,
+            left:0,
+            height:addPx(HeaderHeight),
+            width:addPx(HeaderWidth)
+        }
+    }
+    public getRowCells():HeaderCell[]{
+        let top=HeaderHeight
+        return this.cells.map((cell,index)=>{
+            const height = cell[0].getStyle().height
+            const result =  {
+                id:id++,
+                index:index,
+                value:(index+1).toString(),
+                top:top,
+                left:0,
+                height:addPx(height),
+                width:addPx(HeaderWidth)
+            }
+            top+=height
+            return result
+        })
+    }
+    public getColCells():HeaderCell[]{
+        let left=HeaderWidth
+        return this.cells[0].map((cell,index)=>{
+            const width = cell.getStyle().width
+            const result =  {
+                id:id++,
+                index:index,
+                value:indexToChar(index+1),
+                top:0,
+                left:left,
+                height:addPx(HeaderHeight),
+                width:addPx(width)
+            }
+            left+=width
+            return result
+        })
+    }
 }
+
+// // 行序号单元格
+// export class rowCell{
+//     private index:number
+//     constructor(index:number){
+//         this.setIndex(index)
+//     }
+//     public getIndex() {
+//         return this.index;
+//     }
+//     public setIndex(v: number) {
+//         this.index = v;
+//     }
+// }
+// // 列序号单元格
+// export class HeaderCell extends rowCell{
+   
+// }
 
 export class Cell {
     private value: string;
@@ -192,7 +255,6 @@ export class Cell {
     }
     public getCellStyle() {
         return {
-            position: 'absolute',
             left: addPx(this.position.left),
             top: addPx(this.position.top),
             width: addPx(this.style.width),

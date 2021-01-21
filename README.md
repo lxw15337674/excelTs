@@ -36,19 +36,49 @@ https://github.com/exceljs/exceljs/blob/master/README_zh.md
 ### API 
 
 - [x] 设置工作表名
-- [x] 增加行
-- [x] 删除行
-- [x] 增加列
-- [x] 删除列
+
+- [x] 定位单元格
+
+  通过列位、行位。
+
+- [ ] 获取数据单元格
+
+  getDataCells()
+
+- [ ] 获取行序号单元格
+
+  getRowCells()
+
+- [ ] 获取列序号单元格
+
+  getColCells()
+
+- [ ] 增加行
+
+- [ ] 删除行
+
+- [ ] 增加列
+
+- [ ] 删除列
+
 - [ ] 获取列的长度
+
 - [ ] 获取行的长度
+
 - [ ] 复制
+
 - [ ] 粘贴
+
 - [ ] 剪切
+
 - [ ] 清空
+
 - [ ] 插入
+
 - [ ] 删除
+
 - [ ] 撤销
+
 - [ ] 重做（反撤回）   
 
 ## 单元格
@@ -56,10 +86,16 @@ https://github.com/exceljs/exceljs/blob/master/README_zh.md
  属性
 
 - id：唯一标识
-
 - value: 值
+- style：宽度、高度
+- position：高、左（相对位置）
+- index:行位置、列位置。
 
 ### API 
+
+- [x] 获取单元格样式（即style、position)
+- [ ] 获取单元格行位置
+- [ ] 获取单元格列位置
 
 
 
