@@ -4,8 +4,8 @@ import { addPx } from './utils/addPx';
 import { indexToChar } from './utils/transform';
 
 let id = 1;
-const HeaderHeight = 50
-const HeaderWidth = 120
+const HeaderHeight = 50;
+const HeaderWidth = 120;
 export default class Workbook {
     private sheets: Sheet[] = [new Sheet('sheet1')];
     private name: string;
@@ -84,7 +84,9 @@ export class Sheet {
             let rowCells = [];
             let left = HeaderWidth;
             for (let col = 0; col < colLength; col++) {
-                rowCells.push(new Cell(`行：${row}，列：${col}`, { top, left },{row:row,col:col}));
+                rowCells.push(
+                    new Cell(`行：${row}，列：${col}`, { top, left }, { row: row, col: col }),
+                );
                 left += 120;
             }
             this.cells.push(rowCells);
@@ -137,6 +139,16 @@ export class Sheet {
         }
         return left;
     }
+    public getSheetWidth() {
+        const cells = this.cells[0];
+        const cell = cells[cells.length - 1];
+        return cell.getPosition().left + cell.getStyle().width;
+    }
+    public getSheetHeight() {
+        const cells = this.cells[this.cells.length-1];
+        const cell = cells[cells.length - 1];
+        return cell.getPosition().top + cell.getStyle().height;
+    }
     public getCellTop(index) {
         let top = 0;
         for (let i = 0; i > index; i++) {
@@ -153,50 +165,48 @@ export class Sheet {
     public getDataCells(): Cell[] {
         return this.cells.flat();
     }
-    public findCell(row:number,col:number){
-        return this.cells[row][col]
+    public findCell(row: number, col: number) {
+        return this.cells[row][col];
     }
-    public getPlaceholderCell(){
+    public getPlaceholderCell() {
         return {
-            top:0,
-            left:0,
-            height:addPx(HeaderHeight),
-            width:addPx(HeaderWidth)
-        }
+            height: addPx(HeaderHeight),
+            width: addPx(HeaderWidth),
+        };
     }
-    public getRowCells():HeaderCell[]{
-        let top=HeaderHeight
-        return this.cells.map((cell,index)=>{
-            const height = cell[0].getStyle().height
-            const result =  {
-                id:id++,
-                index:index,
-                value:(index+1).toString(),
-                top:top,
-                left:0,
-                height:addPx(height),
-                width:addPx(HeaderWidth)
-            }
-            top+=height
-            return result
-        })
+    public getRowCells(): HeaderCell[] {
+        let top = HeaderHeight;
+        return this.cells.map((cell, index) => {
+            const height = cell[0].getStyle().height;
+            const result = {
+                id: id++,
+                index: index,
+                value: (index + 1).toString(),
+                top: top,
+                left: 0,
+                height: addPx(height),
+                width: addPx(HeaderWidth),
+            };
+            top += height;
+            return result;
+        });
     }
-    public getColCells():HeaderCell[]{
-        let left=HeaderWidth
-        return this.cells[0].map((cell,index)=>{
-            const width = cell.getStyle().width
-            const result =  {
-                id:id++,
-                index:index,
-                value:indexToChar(index+1),
-                top:0,
-                left:left,
-                height:addPx(HeaderHeight),
-                width:addPx(width)
-            }
-            left+=width
-            return result
-        })
+    public getColCells(): HeaderCell[] {
+        let left = HeaderWidth;
+        return this.cells[0].map((cell, index) => {
+            const width = cell.getStyle().width;
+            const result = {
+                id: id++,
+                index: index,
+                value: indexToChar(index + 1),
+                top: 0,
+                left: left,
+                height: addPx(HeaderHeight),
+                width: addPx(width),
+            };
+            left += width;
+            return result;
+        });
     }
 }
 
@@ -215,7 +225,7 @@ export class Sheet {
 // }
 // // 列序号单元格
 // export class HeaderCell extends rowCell{
-   
+
 // }
 
 export class Cell {
@@ -233,7 +243,7 @@ export class Cell {
             height: 30,
         });
         this.setPosition(position);
-        this.setIndex(index)
+        this.setIndex(index);
     }
 
     public getIndex(): Index {
@@ -247,7 +257,7 @@ export class Cell {
         return this.position;
     }
     public setPosition(v: Position) {
-        this.position = v; 
+        this.position = v;
     }
 
     public getStyle() {
@@ -269,7 +279,7 @@ export class Cell {
         return this.value;
     }
     public setValue(v: string = '') {
-        this.value = v; 
+        this.value = v;
     }
     public getId() {
         return this.id;

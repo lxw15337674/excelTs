@@ -151,6 +151,16 @@
           }
           return left;
       };
+      Sheet.prototype.getSheetWidth = function () {
+          var cells = this.cells[0];
+          var cell = cells[cells.length - 1];
+          return cell.getPosition().left + cell.getStyle().width;
+      };
+      Sheet.prototype.getSheetHeight = function () {
+          var cells = this.cells[this.cells.length - 1];
+          var cell = cells[cells.length - 1];
+          return cell.getPosition().top + cell.getStyle().height;
+      };
       Sheet.prototype.getCellTop = function (index) {
           var top = 0;
           for (var i = 0; i > index; i++) {
@@ -172,10 +182,8 @@
       };
       Sheet.prototype.getPlaceholderCell = function () {
           return {
-              top: 0,
-              left: 0,
               height: addPx(HeaderHeight),
-              width: addPx(HeaderWidth)
+              width: addPx(HeaderWidth),
           };
       };
       Sheet.prototype.getRowCells = function () {
@@ -189,7 +197,7 @@
                   top: top,
                   left: 0,
                   height: addPx(height),
-                  width: addPx(HeaderWidth)
+                  width: addPx(HeaderWidth),
               };
               top += height;
               return result;
@@ -206,7 +214,7 @@
                   top: 0,
                   left: left,
                   height: addPx(HeaderHeight),
-                  width: addPx(width)
+                  width: addPx(width),
               };
               left += width;
               return result;

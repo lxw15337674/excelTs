@@ -32,14 +32,14 @@ export declare class Sheet {
     getId(): number;
     setId(v: number): void;
     getCellLeft(index: any): number;
+    getSheetWidth(): number;
+    getSheetHeight(): number;
     getCellTop(index: any): number;
     getRowHeight(index: any): number;
     getColWidth(index: any): number;
     getDataCells(): Cell[];
     findCell(row: number, col: number): Cell;
     getPlaceholderCell(): {
-        top: number;
-        left: number;
         height: string;
         width: string;
     };

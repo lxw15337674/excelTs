@@ -41,17 +41,27 @@ https://github.com/exceljs/exceljs/blob/master/README_zh.md
 
   通过列位、行位。
 
-- [ ] 获取数据单元格
+- [x] 获取数据单元格
 
   getDataCells()
 
-- [ ] 获取行序号单元格
+- [x] 获取行序号单元格
 
   getRowCells()
 
-- [ ] 获取列序号单元格
+- [x] 获取列序号单元格
 
   getColCells()
+
+- [ ] 获取工作表宽度
+
+  getSheetWidth()
+
+- [ ] 获取工作表高度
+
+  getSheetHeight()
+
+- [ ] 获取
 
 - [ ] 增加行
 
