@@ -79,10 +79,10 @@ export class Sheet {
         this.initCells(rowLength, colLength);
     }
     public initCells(rowLength: number, colLength: number) {
-        let top = HeaderHeight;
+        let top = 0;
         for (let row = 0; row < rowLength; row++) {
             let rowCells = [];
-            let left = HeaderWidth;
+            let left = 0;
             for (let col = 0; col < colLength; col++) {
                 rowCells.push(
                     new Cell(`行：${row}，列：${col}`, { top, left }, { row: row, col: col }),

@@ -53,11 +53,11 @@ https://github.com/exceljs/exceljs/blob/master/README_zh.md
 
   getColCells()
 
-- [ ] 获取工作表宽度
+- [x] 获取工作表宽度
 
   getSheetWidth()
 
-- [ ] 获取工作表高度
+- [x] 获取工作表高度
 
   getSheetHeight()
 
