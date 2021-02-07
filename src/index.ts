@@ -73,7 +73,7 @@ export class Sheet {
     private cells: Cell[][] = [];
     private name: string = null;
     private id: number = null;
-    constructor(name: string, rowLength: number = 50, colLength: number = 20) {
+    constructor(name: string, rowLength: number = 500, colLength: number = 500) {
         this.setName(name);
         this.setId(id++);
         this.initCells(rowLength, colLength);
@@ -145,7 +145,7 @@ export class Sheet {
         return cell.getPosition().left + cell.getStyle().width;
     }
     public getSheetHeight() {
-        const cells = this.cells[this.cells.length-1];
+        const cells = this.cells[this.cells.length - 1];
         const cell = cells[cells.length - 1];
         return cell.getPosition().top + cell.getStyle().height;
     }
@@ -157,13 +157,13 @@ export class Sheet {
         return top;
     }
     public getRowHeight(index) {
-        return this.cells[index][0].getStyle().height;
+        return this.cells?.[index]?.[0].getStyle().height;
     }
     public getColWidth(index) {
         return this.cells[0][index].getStyle().width;
     }
-    public getDataCells(): Cell[] {
-        return this.cells.flat();
+    public getDataCells(): Cell[][] {
+        return this.cells;
     }
     public findCell(row: number, col: number) {
         return this.cells[row][col];
