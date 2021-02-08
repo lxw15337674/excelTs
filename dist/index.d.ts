@@ -37,7 +37,7 @@ export declare class Sheet {
     getCellTop(index: any): number;
     getRowHeight(index: any): number;
     getColWidth(index: any): number;
-    getDataCells(): Cell[];
+    getDataCells(): Cell[][];
     findCell(row: number, col: number): Cell;
     getPlaceholderCell(): {
         height: string;

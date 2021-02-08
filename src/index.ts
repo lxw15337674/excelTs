@@ -6,6 +6,10 @@ import { indexToChar } from './utils/transform';
 let id = 1;
 const HeaderHeight = 50;
 const HeaderWidth = 120;
+const defaultHeight = 50;
+const defaultWidth = 120;
+const defaultRowLength = 5000;
+const defaultColLength = 500;
 export default class Workbook {
     private sheets: Sheet[] = [new Sheet('sheet1')];
     private name: string;
@@ -73,7 +77,11 @@ export class Sheet {
     private cells: Cell[][] = [];
     private name: string = null;
     private id: number = null;
-    constructor(name: string, rowLength: number = 500, colLength: number = 500) {
+    constructor(
+        name: string,
+        rowLength: number = defaultRowLength,
+        colLength: number = defaultColLength,
+    ) {
         this.setName(name);
         this.setId(id++);
         this.initCells(rowLength, colLength);
@@ -87,10 +95,10 @@ export class Sheet {
                 rowCells.push(
                     new Cell(`行：${row}，列：${col}`, { top, left }, { row: row, col: col }),
                 );
-                left += 120;
+                left += defaultWidth;
             }
             this.cells.push(rowCells);
-            top += 30;
+            top += defaultHeight;
         }
     }
     public addRow(index: number, value: string = '') {
@@ -239,8 +247,8 @@ export class Cell {
         this.setValue(value);
         this.setId(id++);
         this.setStyle({
-            width: 120,
-            height: 30,
+            width: defaultWidth,
+            height: defaultHeight,
         });
         this.setPosition(position);
         this.setIndex(index);

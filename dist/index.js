@@ -25,6 +25,10 @@
   var id = 1;
   var HeaderHeight = 50;
   var HeaderWidth = 120;
+  var defaultHeight = 50;
+  var defaultWidth = 120;
+  var defaultRowLength = 5000;
+  var defaultColLength = 500;
   var Workbook = (function () {
       function Workbook(name) {
           if (name === void 0) { name = '无标题表格'; }
@@ -90,8 +94,8 @@
   }());
   var Sheet = (function () {
       function Sheet(name, rowLength, colLength) {
-          if (rowLength === void 0) { rowLength = 50; }
-          if (colLength === void 0) { colLength = 20; }
+          if (rowLength === void 0) { rowLength = defaultRowLength; }
+          if (colLength === void 0) { colLength = defaultColLength; }
           this.cells = [];
           this.name = null;
           this.id = null;
@@ -100,16 +104,16 @@
           this.initCells(rowLength, colLength);
       }
       Sheet.prototype.initCells = function (rowLength, colLength) {
-          var top = HeaderHeight;
+          var top = 0;
           for (var row = 0; row < rowLength; row++) {
               var rowCells = [];
-              var left = HeaderWidth;
+              var left = 0;
               for (var col = 0; col < colLength; col++) {
                   rowCells.push(new Cell("\u884C\uFF1A" + row + "\uFF0C\u5217\uFF1A" + col, { top: top, left: left }, { row: row, col: col }));
-                  left += 120;
+                  left += defaultWidth;
               }
               this.cells.push(rowCells);
-              top += 30;
+              top += defaultHeight;
           }
       };
       Sheet.prototype.addRow = function (index, value) {
@@ -169,13 +173,14 @@
           return top;
       };
       Sheet.prototype.getRowHeight = function (index) {
-          return this.cells[index][0].getStyle().height;
+          var _a, _b;
+          return (_b = (_a = this.cells) === null || _a === void 0 ? void 0 : _a[index]) === null || _b === void 0 ? void 0 : _b[0].getStyle().height;
       };
       Sheet.prototype.getColWidth = function (index) {
           return this.cells[0][index].getStyle().width;
       };
       Sheet.prototype.getDataCells = function () {
-          return this.cells.flat();
+          return this.cells;
       };
       Sheet.prototype.findCell = function (row, col) {
           return this.cells[row][col];
@@ -227,8 +232,8 @@
           this.setValue(value);
           this.setId(id++);
           this.setStyle({
-              width: 120,
-              height: 30,
+              width: defaultWidth,
+              height: defaultHeight,
           });
           this.setPosition(position);
           this.setIndex(index);
